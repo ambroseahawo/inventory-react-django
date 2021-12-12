@@ -103,7 +103,7 @@ docs/_build/
 
 # PyBuilder
 target/
-
+client/
 # Jupyter Notebook
 .ipynb_checkpoints
 

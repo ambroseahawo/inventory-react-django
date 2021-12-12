@@ -34,7 +34,7 @@ def items_detail_view(request, id):
         # get the serialized item data
         serializer = ItemSerializer(item)
         return Response(serializer.data)
-    elif request == 'PUT':
+    elif request.method == 'PUT':
         # update item data
         serializer = ItemSerializer(item, data=request.data)
         if serializer.is_valid():

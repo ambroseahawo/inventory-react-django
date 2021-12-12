@@ -17,3 +17,6 @@ class ItemSerializer(serializers.Serializer):
         # get instances of the data entries
         instance.name = validated_data.get('name', instance.name)
         instance.quantity = validated_data.get('quantity', instance.quantity)
+
+        instance.save() # save updated data
+        return instance
