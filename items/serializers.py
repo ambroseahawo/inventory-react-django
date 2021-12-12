@@ -10,7 +10,7 @@ class ItemSerializer(serializers.Serializer):
 
     # creating item
     def create(self, validated_data):
-        return Item.objects.create(validated_data)
+        return Item.objects.create(**validated_data)
     
     # update item
     def update(self, instance, validated_data):
