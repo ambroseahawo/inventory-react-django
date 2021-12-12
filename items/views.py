@@ -23,3 +23,25 @@ def items_list_view(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def items_detail_view(request, id):
+    # get specific item data from database
+    # get_object_or_404 takes two arguments
+    # model and the id
+    item = get_object_or_404(Item, id=id)
+    if request.method == 'GET':
+        # get the serialized item data
+        serializer = ItemSerializer(item)
+        return Response(serializer.data)
+    elif request == 'PUT':
+        # update item data
+        serializer = ItemSerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        # delete item
+        item.delete()
+        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
