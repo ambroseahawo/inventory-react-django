@@ -170,7 +170,7 @@ p {
 
 @media screen and (min-width: 992px) {
     .section-center {
-        width: 95vw;
+        width: 200vw;
     }
 }
 
@@ -227,11 +227,12 @@ Grocery List
 
 .form-control {
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
 .grocery {
-    padding: 0.25rem;
+    padding: 0.9rem;
     padding-left: 1rem;
     background: var(--clr-grey-10);
     border-top-left-radius: var(--radius);
@@ -240,6 +241,8 @@ Grocery List
     font-size: 1rem;
     flex: 1 0 auto;
     color: var(--clr-grey-5);
+    height: 20px;
+    margin-left: 10px;
 }
 
 .grocery::placeholder {
@@ -264,6 +267,11 @@ Grocery List
     font-size: 0.85rem;
 }
 
+.custom-margin{
+    margin: 0 auto;
+    padding: 10px;
+}
+
 .submit-btn:hover {
     background: var(--clr-primary-5);
     color: var(--clr-white);
@@ -274,9 +282,12 @@ Grocery List
 }
 
 .grocery-item {
-    display: flex;
+    /* display: flex; */
+    display: grid;
+    grid-template-columns: 100px 50px 50px;
+    grid-gap: 8rem;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin-bottom: 0.5rem;
     transition: var(--transition);
     padding: 0.25rem 1rem;
@@ -345,4 +356,86 @@ Grocery List
 
 .clear-btn:hover {
     color: var(--clr-red-dark);
+}
+
+label{
+    margin-top: 5px;
+    clear: left;
+    float: left;
+    text-align: right;
+    padding-right: 10px;
+    width: 180px;
+}
+
+.form-field{
+    padding: 5px;
+}
+
+.title{
+    width: 10px;
+}
+
+@media screen and (max-width: 575px){
+    .grocery-item{
+         grid-template-columns: 75px 10px 50px;
+    }
+
+    label{
+        width: 120px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .btn-container {
+        display: none;
+    }
+    input {
+        width: 190px;
+    }
+    label {
+        width: 50px;
+    }
+}
+
+@media screen and (max-width: 385px) {
+    input{
+        width: 190px;
+    }
+    label {
+        width: 20px;
+        padding-right: 50px;
+    }
+}
+
+@media screen and (max-width: 365px) {
+    input{
+        width: 175px;
+    }
+    label {
+        width: 20px;
+        padding-right: 50px;
+    }
+}
+
+@media screen and (max-width: 345px) {
+    input{
+        width: 170px;
+    }
+    label {
+        width: 20px;
+        padding-right: 50px;
+    }
+}
+
+@media screen and (max-width: 340px) {
+    input{
+        width: 135px;
+    }
+    label {
+        width: 20px;
+        padding-right: 50px;
+    }
+    .grocery-item{
+        padding: 0;
+    }
 }

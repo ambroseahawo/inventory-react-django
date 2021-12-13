@@ -7,6 +7,7 @@ class ItemSerializer(serializers.Serializer):
     # use serializers instead of models
     name = serializers.CharField(max_length=20)
     quantity = serializers.IntegerField(max_value=1000, min_value=1)
+    id = serializers.ReadOnlyField()
 
     # creating item
     def create(self, validated_data):
