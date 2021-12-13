@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Form from '../components/Form'
+import Alert from '../components/Alert'
 import ItemList from '../components/ItemList'
 
 const Home = () => {
-    const [name, setName] = useState('');
     const [list, setList] = useState([]);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editID, setEditID] = useState(null);
+    const [addBtn, setAddBtn] = useState(true)
+    const [editItem, setEditItem] = useState(null);
     const [alert, setAlert] = useState({ show: false, msg: '', type: ''})
 
     const fetchItems = async () => {
@@ -20,67 +20,60 @@ const Home = () => {
         fetchItems();
     }, [])
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const itemForm = (item) =>{
+        setAddBtn(false)
+        setEditItem(item? item: {name: '', quantity: ''})
+    }
 
-        if (!name) {
-            showAlert(true, 'danger', 'please enter value');
-        } else if (name && isEditing) {
-            // update the item here
-            setList(
-                list.map((item) => {
-                if (item.id === editID) {
-                    return { ...item, title: name };
-                }
-                return item;
-                })
-            );
+    const newItem = (item) =>{
+        const newItems = [item, ...list]
+        setList(newItems)
 
-            setName('');
-            setEditID(null);
-            setIsEditing(false);
-            showAlert(true, 'success', 'value changed');
-        } else {
-            // create item here
-            const newItem = { id: new Date().getTime().toString(), title: name };
-            
-            setList([...list, newItem]);
-            setName('');
-            setIsEditing(false);
-            showAlert(true, 'success', 'item added to the list');
-        }
-    };
+        showAlert(true, 'success', 'item added to the list')
+    }
+
+    const updatedItem =(prevItem) =>{
+        const newItems = list.map(item => {
+            if (item.id === prevItem.id){
+                return prevItem
+            }else{
+                return item
+            }
+        })
+
+        setList(newItems)
+        showAlert(true, 'success', 'item changed')
+    }
 
     const showAlert = (show = false, type = '', msg = '') => {
         setAlert({ show, type, msg });
     };
 
-    const clearList = () => {
-        showAlert(true, 'danger', 'empty list');
-        setList([]);
-    };
+    const updateDelete = (deletedItem) => {
+        const newItems = list.filter(item => {
+            if (item.id === deletedItem.id){
+                return false
+            }
+            return true
+        })
 
-    const removeItem = (id) => {
+        setList(newItems)
         showAlert(true, 'danger', 'item removed');
-        setList(list.filter((item) => item.id !== id));
     };
 
-    const editItem = (id) => {
-        const specificItem = list.find((item) => item.id === id);
-        setIsEditing(true);
-        setEditID(id);
-        setName(specificItem.title);
+    const handleEdit = (item) => {
+        itemForm(item)
     };
 
 
     return (
         <section className="section-center">
-            <Form handleSubmit={handleSubmit} alert={alert} name={name} list={list} 
-                    showAlert={showAlert} setName={setName} isEditing={isEditing} />
+            {addBtn ? <button className="btn add-item-btn" onClick={itemForm}>add item</button> : null}
+            {editItem? <Form newItem={newItem} updatedItem={updatedItem} editItem={editItem} alert={alert} list={list} showAlert={showAlert} setAddBtn={setAddBtn} setEditItem={setEditItem} />: null}
+            {alert.show && <Alert {...alert} removeAlert={showAlert} list={list} />}
             {list.length > 0 && (
                 <div className="grocery-container">
-                    <ItemList items={list} removeItem={removeItem} editItem={editItem}/>
-                    <button className="clear-btn" onClick={clearList}>clear items</button>
+                    <ItemList items={list} updateDelete={updateDelete} handleEdit={handleEdit}/>
                 </div>
             )}
         </section>

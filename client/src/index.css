@@ -309,6 +309,7 @@ Grocery List
     color: var(--clr-grey-1);
     letter-spacing: 2px;
     transition: var(--transition);
+    white-space:nowrap;
 }
 
 .edit-btn,
@@ -371,8 +372,18 @@ label{
     padding: 5px;
 }
 
-.title{
+.add-item-btn{
+    margin-bottom: 20px;
+}
+
+/* .title{
     width: 10px;
+} */
+
+.inventory-heading{
+    display: grid;
+    grid-template-columns: 100px 100px;
+    grid-gap: 6rem;
 }
 
 @media screen and (max-width: 575px){
